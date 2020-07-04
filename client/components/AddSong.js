@@ -10,13 +10,21 @@ class AddSong extends Component {
         }
     }
 
+    onSubmit(event){
+        event.preventDefault();
+        console.log(this.props)
+        this.props.mutate({
+            variables:{
+                title:this.state.title
+            }
+        });
+    }
+
     render() {
-        console.log("props"+this.props.data)
-        console.log("title"+this.state.title)
         return (
             <div>
                 <h1>Add new song</h1>
-                <form onSubmit={()=>console.log("submit")}>
+                <form onSubmit={this.onSubmit.bind(this)}>
                     title
                     <input
                         onChange={(event)=>this.setState({title:event.target.value})}
@@ -29,8 +37,9 @@ class AddSong extends Component {
 }
 
 const query = gql`
-{
-    songs{
+mutation AddSong($title:String){
+    addSong(title:$title){
+        id
         title
     }
 }
